@@ -103,10 +103,11 @@ class RequestsTransport(object):
         yield types
 
         for line in lines:
-            yield [
-                (converter(x) if converter else x)
-                for x, converter in zip(parse_tsv(line), convs)
-            ]
+            if line != b'':
+                yield [
+                    (converter(x) if converter else x)
+                    for x, converter in zip(parse_tsv(line), convs)
+                ]
 
     def raw(self, query, params=None, stream=False):
         """
